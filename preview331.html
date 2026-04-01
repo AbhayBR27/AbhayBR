@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Opening File...</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  color: white;
+  font-family: "Segoe UI", Arial;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* WINDOWS UPDATE SCREEN */
+#updateScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #0079d7;
+  color: white;
+  display: none;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* CENTER CONTENT */
+.main {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -40%);
+  text-align: center;
+}
+
+/* BOTTOM TEXT */
+.bottom {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+/* WINDOWS LOADER */
+.loader {
+  margin: auto;
+  width: 60px;
+  height: 60px;
+  position: relative;
+}
+
+.loader .circle {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  opacity: 0;
+  transform: rotate(225deg);
+  animation: orbit 5.5s infinite;
+}
+
+.loader .circle:after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 5px;
+  background: white;
+}
+
+.loader .circle:nth-child(2) { animation-delay: 240ms; }
+.loader .circle:nth-child(3) { animation-delay: 480ms; }
+.loader .circle:nth-child(4) { animation-delay: 720ms; }
+.loader .circle:nth-child(5) { animation-delay: 960ms; }
+
+@keyframes orbit {
+  0% { transform: rotate(225deg); opacity:1; }
+  100% { transform: rotate(945deg); opacity:0; }
+}
+</style>
+</head>
+
+<body onclick="userClicked()">
+
+<!-- OPENING -->
+<div id="opening">
+  <h1 id="text">Opening file...</h1>
+</div>
+
+<!-- UPDATE SCREEN -->
+<div id="updateScreen">
+
+  <div class="main">
+    <div class="loader">
+      <div class="circle"></div>
+      <div class="circle"></div>
+      <div class="circle"></div>
+      <div class="circle"></div>
+      <div class="circle"></div>
+    </div>
+
+    <br><br>
+
+    <div>
+      Working on updates <span id="percent">0%</span> complete.
+    </div>
+  </div>
+
+  <div class="bottom">
+    Don't turn off your PC. This will take a while.
+  </div>
+
+</div>
+
+<script>
+let clicked = false;
+
+// SAFE TEXT FUNCTION
+function setText(msg) {
+  let el = document.getElementById("text");
+  if (el) el.innerText = msg;
+}
+
+// NOT CLICKED FLOW 😈
+setTimeout(() => { if (!clicked) setText("Still opening..."); }, 2000);
+setTimeout(() => { if (!clicked) setText("💀 Bro really didn’t click..."); }, 4000);
+setTimeout(() => { if (!clicked) setText("Alright, you deserve this 😂"); }, 5500);
+setTimeout(() => {
+  if (!clicked) window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+}, 7000);
+
+
+// CLICK FLOW
+function userClicked() {
+  if (clicked) return;
+  clicked = true;
+
+  enterFullscreen();
+
+  // April Fools message
+  setText("😂 Today is April 1 😂");
+
+  // 🔥 CHANGE THIS VALUE TO CONTROL SPEED
+  setTimeout(() => {
+    document.getElementById("opening").style.display = "none";
+    document.getElementById("updateScreen").style.display = "block";
+    startFakeUpdate();
+  }, 800); // 👈 YOU CAN CHANGE THIS
+}
+
+
+// FULLSCREEN
+function enterFullscreen() {
+  let el = document.documentElement;
+  if (el.requestFullscreen) el.requestFullscreen();
+  else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+}
+
+
+// UPDATE LOOP
+function startFakeUpdate() {
+  let percent = 0;
+
+  setInterval(() => {
+    percent++;
+
+    if (percent > 99) {
+      percent = Math.floor(Math.random() * 5) + 95;
+    }
+
+    let el = document.getElementById("percent");
+    if (el) el.innerText = percent + "%";
+  }, 200);
+}
+</script>
+
+</body>
+</html>
